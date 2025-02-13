@@ -10,24 +10,23 @@ from isaaclab_tasks.manager_based.isaaclab_rl import mdp
 from isaaclab_tasks.manager_based.isaaclab_rl.lift_env_cfg import LiftEnvCfg
 
 from isaaclab.markers.config import FRAME_MARKER_CFG  # isort: skip
-from isaaclab_assets.robots.kinova import KINOVA_GEN3_CFG # isort: skip
+from isaaclab_assets.robots.dobot import DOBOT_CR5_CFG # isort: skip
+
 
 @configclass
-class KinovaCubeLiftEnvCfg(LiftEnvCfg):
+class DobotCubeLiftEnvCfg(LiftEnvCfg):
     def __post_init__(self):
-        # post init of parent
         super().__post_init__()
 
-        # Set Kinova as robot
-        self.scene.robot = KINOVA_GEN3_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot")
+        self.scene.robot = DOBOT_CR5_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot")
 
-        # Set actions for the specific robot type (kinova)
         self.actions.arm_action = mdp.JointPositionActionCfg(
             asset_name="robot",
-            joint_names=["joint_.*"],
+            joint_names=["joint.*"],
             scale=0.5,
             use_default_offset=True,
         )
+
         self.actions.gripper_actions = mdp.BinaryJointPositionActionCfg(
             asset_name="robot",
             joint_names=[
@@ -49,13 +48,15 @@ class KinovaCubeLiftEnvCfg(LiftEnvCfg):
                 # "robotiq_85_left_inner_knuckle_joint": 0.85,
             },
         )
-        # Set the body name for the end effector
+
         self.commands.object_pose.body_name = "robotiq_arg2f_base_link"
 
         # Set Cube as object
         self.scene.object = RigidObjectCfg(
             prim_path="{ENV_REGEX_NS}/Object",
-            init_state=RigidObjectCfg.InitialStateCfg(pos=[0.5, 0, 0.055], rot=[1, 0, 0, 0]),
+            init_state=RigidObjectCfg.InitialStateCfg(
+                pos=[0.5, 0, 0.055], rot=[1, 0, 0, 0]
+            ),
             spawn=UsdFileCfg(
                 usd_path=f"{ISAAC_NUCLEUS_DIR}/Props/Blocks/DexCube/dex_cube_instanceable.usd",
                 scale=(0.8, 0.8, 0.8),
@@ -89,13 +90,11 @@ class KinovaCubeLiftEnvCfg(LiftEnvCfg):
             ],
         )
 
+
 @configclass
-class KinovaCubeLiftEnvCfg_PLAY(KinovaCubeLiftEnvCfg):
+class DobotCubeLiftEnvCfg_PLAY(DobotCubeLiftEnvCfg):
     def __post_init__(self):
-        # post init of parent
         super().__post_init__()
-        # make a smaller scene for play
         self.scene.num_envs = 50
         self.scene.env_spacing = 2.5
-        # disable randomization for play
         self.observations.policy.enable_corruption = False
