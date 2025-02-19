@@ -142,7 +142,6 @@ IsaacLab by default includes Franka Emika. We modify it to support **Robotiq 2F-
 ## Training Demonstration
 You can watch the training process in the following videos:
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/IZ1218bCFwY" frameborder="0" allowfullscreen></iframe>
+[![Dobot Training](https://img.youtube.com/vi/IZ1218bCFwY/0.jpg)](https://www.youtube.com/watch?v=IZ1218bCFwY)
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/jzSWpFRQUzo" frameborder="0" allowfullscreen></iframe>
-
+[![Kinova Training](https://img.youtube.com/vi/jzSWpFRQUzo/0.jpg)](https://www.youtube.com/watch?v=jzSWpFRQUzo)
